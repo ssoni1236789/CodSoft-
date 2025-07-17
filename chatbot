@@ -1,0 +1,62 @@
+
+import tkinter as tk
+from tkinter import scrolledtext
+
+# Rule-based chatbot logic
+def get_response(user_input):
+    user_input = user_input.lower()
+
+    if user_input in ["hi", "hello", "hey"]:
+        return "Hello! How can I help you today?"
+
+    elif "how are you" in user_input:
+        return "I'm just code, but I'm doing great!"
+
+    elif "your name" in user_input:
+        return "I'm RuleBot, your rule-based chatbot."
+
+    elif "help" in user_input:
+        return "I can respond to greetings and basic questions like 'What's your name?'"
+
+    elif user_input in ["bye", "goodbye", "see you"]:
+        return "Goodbye! Have a nice day!"
+
+    else:
+        return "Sorry, I don't understand that."
+
+# GUI setup
+def send_message():
+    user_input = entry_box.get()
+    if user_input.strip() == "":
+        return
+
+    chat_log.config(state=tk.NORMAL)
+    chat_log.insert(tk.END, "You: " + user_input + "\n")
+    
+    response = get_response(user_input)
+    chat_log.insert(tk.END, "RuleBot: " + response + "\n\n")
+    chat_log.config(state=tk.DISABLED)
+    
+    entry_box.delete(0, tk.END)
+
+# Create the window
+window = tk.Tk()
+window.title("RuleBot - Chatbot")
+window.geometry("400x500")
+window.resizable(False, False)
+
+# Chat log area
+chat_log = scrolledtext.ScrolledText(window, state=tk.DISABLED, wrap=tk.WORD)
+chat_log.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+# Input field
+entry_box = tk.Entry(window, font=("Arial", 12))
+entry_box.pack(padx=10, pady=10, fill=tk.X)
+entry_box.bind("<Return>", lambda event: send_message())
+
+# Send button
+send_button = tk.Button(window, text="Send", command=send_message)
+send_button.pack(pady=5)
+
+# Start GUI loop
+window.mainloop()
